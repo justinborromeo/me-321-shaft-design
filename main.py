@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 ### GEAR SET 1 ###
 
@@ -17,7 +18,7 @@ serviceFactor = 1.00
 targetVelocityRatio = inputSpeed / outputSpeed
 print("Target Gear Ratio: " + str(targetVelocityRatio))
 
-print("GEAR SET 1 PARAMS")
+print("GEAR SET 1 PARAMS \n\n\n")
 
 targetVR = math.sqrt(targetVelocityRatio)  # Velocity Ratio for both sets of gears
 
@@ -36,6 +37,8 @@ pinionDiameter = pinionTeeth / pitchDiameter
 
 adjustmentDiameter = 1 / pitchDiameter
 
+
+print("Adjustment Diameter: " + str(adjustmentDiameter))
 print("Gear Diameter: " + str(gearDiameter))
 print("Pinion Diameter: " + str(pinionDiameter))
 
@@ -85,7 +88,7 @@ meshAlignmentFactor = 0.127 + 0.0158 * nominalFaceWidth - (1.093 * pow(10, -4) *
 
 Km = 1 + meshAlignmentFactor + pinionProportionFactor
 
-print("Mesh Alignment Factor" + str(meshAlignmentFactor))
+print("Mesh Alignment Factor: " + str(meshAlignmentFactor))
 
 sizeFactor = 1  # Ks since pitch diameter is greater than 5 inches from Table 9-2
 
@@ -241,7 +244,7 @@ meshAlignmentFactor = 0.127 + 0.0158 * nominalFaceWidth - (1.093 * pow(10, -4) *
 
 Km = 1 + meshAlignmentFactor + pinionProportionFactor
 
-print("Mesh Alignment Factor" + str(meshAlignmentFactor))
+print("Mesh Alignment Factor: " + str(meshAlignmentFactor))
 
 sizeFactor = 1  # Ks since pitch diameter is greater than 5 inches from Table 9-2
 
@@ -309,4 +312,5 @@ brinellHardness = calc_brinell_hardness(limitingStress) # HB from Fig 9-19 using
 print("Brinell Hardness: " + str(brinellHardness))
 
 print("Output Speed: " + str(inputSpeed / VR))
-# Use appendix 3 to select a steel -> Use 1144 Cold-Drawn (HB = 200)
+# Use appendix 3 to select a steel -> Use SAE 4150 OQT 700 (HB = 495)
+
