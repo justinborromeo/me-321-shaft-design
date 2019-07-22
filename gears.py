@@ -313,4 +313,3 @@ print("Brinell Hardness: " + str(brinellHardness))
 
 print("Output Speed: " + str(inputSpeed / VR))
 # Use appendix 3 to select a steel -> Use SAE 4150 OQT 700 (HB = 495)
-
