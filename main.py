@@ -19,7 +19,7 @@ serviceFactor = 1.00
 targetVelocityRatio = inputSpeed / outputSpeed
 print("Target Gear Ratio: " + str(targetVelocityRatio))
 
-print("GEAR SET 1 PARAMS \n\n\n")
+print("GEAR SET 1 PARAMS \n")
 
 targetVR = math.sqrt(targetVelocityRatio)  # Velocity Ratio for both sets of gears
 
@@ -175,7 +175,7 @@ print("Brinell Hardness: " + str(brinellHardness))
 
 ### GEAR SET 2 ###
 
-print("\n\n\n GEAR SET 2 PARAMS \n\n\n ")
+print("\nGEAR SET 2 PARAMS \n")
 
 targetVR = math.sqrt(targetVelocityRatio)  # Velocity Ratio for both sets of gears
 
@@ -219,13 +219,8 @@ print("Nominal Face Width: " + str(nominalFaceWidth))
 elasticCoefficient = 2300  # Cp
 agmaQualityNumber = 6  # A6 - automotive transmission equiv. from 9-5
 
-dynamicFactorsAt3207VT = {}  # Mapping between AGMA Quality Numbers and Dynamic Factors at Vt of 708
-dynamicFactorsAt3207VT[6] = 1.07
-dynamicFactorsAt3207VT[7] = 1.12
-dynamicFactorsAt3207VT[8] = 1.18
-dynamicFactorsAt3207VT[9] = 1.24
-dynamicFactorsAt3207VT[10] = 1.31
-dynamicFactorsAt3207VT[11] = 1.39
+# Mapping between AGMA Quality Numbers and Dynamic Factors at Vt of 708
+dynamicFactorsAt3207VT = {6: 1.07, 7: 1.12, 8: 1.18, 9: 1.24, 10: 1.31, 11: 1.39}
 
 dynamicFactor = dynamicFactorsAt3207VT[agmaQualityNumber]  # Kv
 
@@ -317,7 +312,7 @@ print("Output Speed: " + str(inputSpeed / VR))
 
 # Shaft 1
 
-print("\n\n\nSHAFT 1\n\n\n")
+print("\nSHAFT 1\n")
 
 powerIn = 20 * 63000 # watts
 lengthSec1 = 0.5 # inches
@@ -391,14 +386,14 @@ def get_section_diameters(tangentialMoment, radialMoment, torque):
     for i in range(0, int(discreteSubdivisions * lengthSec1 / totalLength)):
         if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section1MaxMoment:
             section1MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
-    section1Diameter = get_section_diameter(torqueInB, section1MaxMoment)
+    section1Diameter = get_section_diameter(torque, section1MaxMoment)
 
     section2MaxMoment = 0
     for i in range(int(discreteSubdivisions * lengthSec1 / totalLength),
                    int(discreteSubdivisions * (lengthSec1 + lengthSec2) / totalLength)):
         if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section2MaxMoment:
             section2MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
-    section2Diameter = get_section_diameter(torqueInB, section2MaxMoment)
+    section2Diameter = get_section_diameter(torque, section2MaxMoment)
 
     section3MaxMoment = 0
 
@@ -406,7 +401,7 @@ def get_section_diameters(tangentialMoment, radialMoment, torque):
                    int(discreteSubdivisions * (lengthSec1 + lengthSec2 + lengthSec3MiddleToEnd + lengthSec3ToMiddle) / totalLength)):
         if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section3MaxMoment:
             section3MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
-    section3Diameter = get_section_diameter(torqueInB, section3MaxMoment)
+    section3Diameter = get_section_diameter(torque, section3MaxMoment)
 
     section4MaxMoment = 0
     for i in range(int(discreteSubdivisions * (lengthSec1 + lengthSec2 + lengthSec3MiddleToEnd + lengthSec3ToMiddle) / totalLength),
@@ -445,10 +440,10 @@ SnPrime = Cs * Cr * Sn
 N = 3 # Safety Factor
 
 angularVelocityIn = inputSpeed * 2 * math.pi / 60 # rpm
-torqueInB = powerIn / angularVelocityIn
-print("Torque In: " + str(torqueInB))
+torque = powerIn / angularVelocityIn
+print("Torque In: " + str(torque))
 
-tangentialForceGear = torqueInB / (pinionDiameter / 2)
+tangentialForceGear = torque / (pinionDiameter / 2)
 radialForceGear = tangentialForceGear * math.tan(math.pi / 9)
 
 print("Tangential Force Gear: " + str(tangentialForceGear))
@@ -463,19 +458,119 @@ def father_of_get_section_diameters(tangentialForceGear, radialForceGear, starti
 
     return get_section_diameters(tangentialMoment, radialMoment, torque)
 
-section_diameters = father_of_get_section_diameters(tangentialForceGear, radialForceGear, 1, torqueInB)
+section_diameters = father_of_get_section_diameters(tangentialForceGear, radialForceGear, 1, torque)
 print("Input Section Diameters: " + str(section_diameters))
 
-angularVelocityIn = (inputSpeed / VR) * 2 * math.pi / 60
-torqueInB = powerIn / angularVelocityIn
-print("Torque In: " + str(torqueInB))
+print("\nSHAFT 3\n")
 
-tangentialForceGear = torqueInB / (gearDiameter / 2)
+angularVelocityIn = (inputSpeed / VR) * 2 * math.pi / 60
+torque = powerIn / angularVelocityIn
+print("Torque In: " + str(torque))
+
+tangentialForceGear = torque / (gearDiameter / 2)
 radialForceGear = tangentialForceGear * math.tan(math.pi / 9)
 print("Tangential Force Gear: " + str(tangentialForceGear))
 print("Radial Force Gear: " + str(radialForceGear))
 
-section_diameters = father_of_get_section_diameters(tangentialForceGear, radialForceGear, 7, torqueInB)
+section_diameters = father_of_get_section_diameters(tangentialForceGear, radialForceGear, 7, torque)
 print("Output Section Diameters: " + str(section_diameters))
+
+print("\nSHAFT 2\n")
+
+lengthA = 0.5
+lengthB = 1
+lengthC = 0.125
+lengthD = 0.125
+lengthEFirstHalf = 0.8565
+lengthESecondHalf = 0.8565
+lengthF = 6.074
+lengthGFirstHalf = 0.8565
+lengthGSecondHalf = 0.8565
+lengthH = 0.125
+lengthI = 0.125
+lengthJ = 1
+lengthK = 0.5
+totalLength = lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf + lengthF + lengthGFirstHalf + \
+    lengthGSecondHalf + lengthH + lengthI + lengthJ + lengthK
+print(totalLength)
+shaftSpeed = (inputSpeed / VR) * 2 * math.pi / 60 # rpm
+shaftTorque = power * 34000 / shaftSpeed
+tangentialForceInputGear = shaftTorque / (gearDiameter / 2)
+tangentialForceOutputPinion = shaftTorque / (pinionDiameter / 2)
+
+radialForceInputGear = tangentialForceGear * math.tan(math.pi / 9)
+radialForceOutputPinion = tangentialForceOutputPinion * math.tan(math.pi / 9)
+
+print("Tangential Force Input Gear: " + str(tangentialForceInputGear))
+print("Tangential Force Output Pinion: " + str(tangentialForceOutputPinion))
+
+print("Radial Force Input Gear: " + str(radialForceInputGear))
+print("Radial Force Output Pinion: " + str(radialForceOutputPinion))
+
+rkx = ((tangentialForceInputGear * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf)) + \
+      tangentialForceOutputPinion * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf
+                                     + lengthF + lengthGFirstHalf))\
+      / (totalLength - 0.5 * lengthA - 0.5 * lengthB)
+
+rax = tangentialForceOutputPinion + tangentialForceInputGear - rkx
+
+print("Rkx: " + str(rkx))
+print("Rax: " + str(rax))
+
+rky = ((radialForceInputGear * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf)) + \
+      radialForceOutputPinion * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf
+                                     + lengthF + lengthGFirstHalf))\
+      / (totalLength - 0.5 * lengthA - 0.5 * lengthB)
+ray = radialForceOutputPinion + radialForceInputGear - rky
+
+print("Rky: " + str(rky))
+print("Ray: " + str(ray))
+
+x = np.linspace(0, lengthAToCenter + lengthCenterToC, discreteSubdivisions)
+shearForceTangential = np.linspace(0, 0, discreteSubdivisions)
+for i in range(0, int(discreteSubdivisions * ((0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf) / totalLength))):
+    shearForceTangential[i] = rax
+
+for i in range(int(discreteSubdivisions * ((0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf) / totalLength)),
+               int(discreteSubdivisions * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf
+                                     + lengthF + lengthGFirstHalf) / totalLength)):
+    shearForceTangential[i] = rax - tangentialForceInputGear
+
+for i in range(int(discreteSubdivisions * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf
+                                     + lengthF + lengthGFirstHalf) / totalLength), discreteSubdivisions):
+    shearForceTangential[i] = rax - tangentialForceInputGear - tangentialForceOutputPinion
+
+shearForceTangential[discreteSubdivisions - 1] = 0
+shearForceTangential[0] = 0
+
+plt.figure(13)
+plt.title("Tangential Shear Force")
+plt.ylabel("Shear Force [lbs]")
+plt.xlabel("x [in]")
+plt.plot(x, shearForceTangential)
+
+shearForceRadial = np.linspace(0, 0, discreteSubdivisions)
+for i in range(0, int(discreteSubdivisions * ((0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf) / totalLength))):
+    shearForceRadial[i] = ray
+
+for i in range(int(discreteSubdivisions * ((0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf) / totalLength)),
+               int(discreteSubdivisions * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf
+                                     + lengthF + lengthGFirstHalf) / totalLength)):
+    shearForceRadial[i] = ray - radialForceInputGear
+
+for i in range(int(discreteSubdivisions * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf
+                                     + lengthF + lengthGFirstHalf) / totalLength), discreteSubdivisions):
+    shearForceRadial[i] = ray - radialForceInputGear - radialForceOutputPinion
+
+shearForceRadial[discreteSubdivisions - 1] = 0
+shearForceRadial[0] = 0
+
+plt.figure(14)
+plt.title("Radial Shear Force")
+plt.ylabel("Shear Force [lbs]")
+plt.xlabel("x [in]")
+plt.plot(x, shearForceRadial)
+
+
 
 plt.show()
