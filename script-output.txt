@@ -1,95 +1,150 @@
 C:\Users\jborromeo\AppData\Local\Programs\Python\Python37\python.exe E:/Justin/Code/me-321-shaft-design/main.py
-Target Gear Ratio: 20.58823529411765
 GEAR SET 1 PARAMS 
 
-Gear Teeth: 77
-Velocity Ratio: 4.529411764705882
-Adjustment Diameter: 0.14285714285714285
-Gear Diameter: 11.0
-Pinion Diameter: 2.4285714285714284
+1) Target Velocity Ratio: 20.58823529411765
+2) Target Gearset Velocity Ratio:4.5374260648651505
+3) Num Pinion Teeth: 17
+4) Num Gear Teeth: 77
+5) Actual Velocity Ratio: 4.529411764705882
+6) Design Power [W]: 40.0
+7) Pitch Diameter [in]: 7.0
+8) Gear Diameter [in]: 11.0
+8) Pinion Diameter [in]: 2.4285714285714284
 Addendum: 0.14285714285714285
 Dedendum: 0.17857142857142858
 Pinion Addendum Diameter: 2.714285714285714
 Pinion Dedendum Diameter: 2.071428571428571
 Gear Addendum Diameter: 11.285714285714286
 Gear Dedendum Diameter: 10.642857142857142
-Geartrain Height: 18.142857142857142
-C: 0.9591836734693878
-Tangential velocity: 3207.0425005395805
-wt: 205.79708559800997
-Nominal Face Width: 1.7142857142857142
-Dynamic Factor: 1.13
-KM Ratio: 0.7058823529411765
-Cpf: 0.054516806722689076
-Mesh Alignment Factor: 0.153764506122449
-Number Pinion Cycles: 1260000000
-Number Gear Cycles: 278181818.1818182
-Ynp: 0.9337036012656141
-Yng: 0.9591501034620954
-Znp: 0.8947463074559197
-Zng: 0.9263793727366358
-Bending Stress Number Pinion: 8331.045421001683
-Bending Stress Number Gear: 5835.258735137693
-Contact Stress Number Pinion: 92166.71041765004
-Contact Stress Number Gear: 41827.72303949037
-Limiting Factor: 92166.71041765004
-Brinell Hardness: 195.85934912313675
+9) Geartrain Height [in]: 18.142857142857142
+10) Center Distance [in]: 0.9591836734693878
+11) Pitch Line Speed [in/s]: 3207.0425005395805
+12) Transmitted Load: 205.79708559800997
+13) Nominal Face Width: 1.7142857142857142
+14) Elastic Coefficient: 2300
+15) AGMA Quality Number: 6
+16) Dynamic Factor: 1.13
+17) F/Dp Ratio: 0.7058823529411765
+18) Pinion Proportion Factor: 0.054516806722689076
+19) Mesh Alignment Factor: 0.153764506122449
+20) Km: 1.2082813128451382
+21) Ks: 1
+22) Rim Thickness Factor: 1.0
+23) Reliability Factor: 1.0
+24) Number Pinion Cycles: 1260000000
+24) Number Gear Cycles: 278181818.1818182
+25) Ynp: 0.9337036012656141
+25) Yng: 0.9591501034620954
+26) Znp: 0.8947463074559197
+26) Zng: 0.9263793727366358
+27) Bending Geometry Factor Pinion 0.295
+27) Bending Geometry Factor Gear 0.41
+28) Pitting Geometry Factor: 0.105
+29) Bending Stress Number Pinion: 8331.045421001683
+29) Bending Stress Number Gear: 5835.258735137693
+30) Contact Stress Number Pinion: 92166.71041765004
+30) Contact Stress Number Gear: 41827.72303949037
+31) Limiting Stress: 92166.71041765004
+32) Brinell Hardness: 195.85934912313675
+33) Choose 1144 Cold-Drawn Steel with HB = 200
 
 GEAR SET 2 PARAMS 
 
-Gear Teeth: 77
-Velocity Ratio: 4.529411764705882
-Gear Diameter: 11.0
-Pinion Diameter: 2.4285714285714284
+1) Target Velocity Ratio: 4.5374260648651505
+2) Target Gearset Velocity Ratio:4.5374260648651505
+3) Num Pinion Teeth: 17
+4) Num Gear Teeth: 77
+5) Actual Velocity Ratio: 4.529411764705882
+6) Design Power: 40.0
+7) Pitch Diameter: 7.0
+8) Gear Diameter: 11.0
+8) Pinion Diameter: 2.4285714285714284
 Pinion Addendum Diameter: 2.714285714285714
 Pinion Dedendum Diameter: 2.071428571428571
 Gear Addendum Diameter: 11.285714285714286
 Gear Dedendum Diameter: 10.642857142857142
-Geartrain Height: 18.142857142857142
-C: 0.9591836734693878
-Tangential velocity: 708.0483442749724
-wt: 932.1397406498098
-Nominal Face Width: 1.7142857142857142
-Dynamic Factor: 1.07
-KM Ratio: 0.7058823529411765
-Cpf: 0.054516806722689076
-Mesh Alignment Factor: 0.153764506122449
-Number Pinion Cycles: 278181818.1818182
-Number Gear Cycles: 61416765.05312869
-Ynp: 0.9591501034620954
-Yng: 0.985290106758024
-Znp: 0.9263793727366358
-Zng: 0.9591308006311069
-Bending Stress Number Pinion: 34783.16493829622
-Bending Stress Number Gear: 24362.940877775713
-Contact Stress Number Pinion: 184356.60192996546
-Contact Stress Number Gear: 83665.96628093896
-Limiting Factor: 184356.60192996546
-Brinell Hardness: 482.1633600309486
-Output Speed: 85.30106257378985
+9) Geartrain Height: 18.142857142857142
+10) Center Distance: 0.9591836734693878
+11) Pitch Line Speed: 708.0483442749724
+12) Transmitted Load: 932.1397406498098
+13) Nominal Face Width: 1.7142857142857142
+14) Elastic Coefficient: 2300
+15) AGMA Quality Number: 6
+16) Dynamic Factor: 1.07
+17) F/Dp Ratio: 0.7058823529411765
+18) Pinion Proportion Factor: 0.054516806722689076
+19) Mesh Alignment Factor: 0.153764506122449
+20) Km: 1.2082813128451382
+21) Ks: 1
+22) Rim Thickness Factor: 1.0
+23) Reliability Factor: 1.0
+24) Number Pinion Cycles: 278181818.1818182
+24) Number Gear Cycles: 61416765.05312869
+25) Ynp: 0.9591501034620954
+25) Yng: 0.985290106758024
+26) Znp: 0.9263793727366358
+26) Zng: 0.9591308006311069
+27) Bending Geometry Factor Pinion 0.295
+27) Bending Geometry Factor Gear 0.41
+28) Pitting Geometry Factor: 0.105
+29) Bending Stress Number Pinion: 34783.16493829622
+29) Bending Stress Number Gear: 24362.940877775713
+30) Contact Stress Number Pinion: 184356.60192996546
+30) Contact Stress Number Gear: 83665.96628093896
+31) Limiting Stress: 184356.60192996546
+32) Brinell Hardness: 482.1633600309486
+33) Choose SAE 4150 OQT 700 with HB = 495
+Final Output Speed: 85.30106257378985
 
 SHAFT 1
 
-Torque In: 6875.493541569879
-Tangential Force Gear: 5662.171151881077
-Radial Force Gear: 2060.8617606054886
-Input Section Diameters: [0.23286368451684086, 0.40354024190358395, 1.180330714294978, 0.42036596721285024, 0.20024439943937306, 0.12524559101164875]
+1) Section Lengths [in]: [0.5, 1, 1.964, 1, 0.25, 0.25]
+2) Sn [psi]: 310000
+2) Sy [psi]: 287000
+3) Cs : 0.8116523277245
+4) Sn' [psi]: 203805.89949162197
+5) N: 3
+6) Torque [lbs-in]: 6875.493541569879
+7) Tangential Force Gear [lbs]: 5662.171151881077
+8) Radial Force Gear [lbs]: 2060.8617606054886
+10) Reaction Force C [lbs]: 2973.666436936738
+10) Reaction Force A [lbs]: 2688.504714944339
+10) Reaction Force C [lbs]: 1082.3260696814077
+10) Reaction Force A [lbs]: 978.5356909240809
+14) Section Diameters [in]: [0.23286368451684086, 0.40354024190358395, 1.180330714294978, 0.42036596721285024, 0.20024439943937306, 0.12524559101164875]
 
 SHAFT 3
 
-Torque In: 31141.94133534592
-Tangential Force Gear: 5662.171151881076
-Radial Force Gear: 2060.861760605488
-Output Section Diameters: [0.5204481136653292, 0.5789547911004376, 1.2102725796730098, 0.42036596721285024, 0.20024439943937306, 0.1252455910116488]
+1) Section Lengths [in]: [0.5, 1, 1.964, 1, 0.25, 0.25]
+2) Sn [psi]: 310000
+2) Sy [psi]: 287000
+3) Cs : 0.8116523277245
+4) Sn' [psi]: 203805.89949162197
+5) N: 3
+6) Torque [lbs-in]: 31141.94133534592
+7) Tangential Force Gear [lbs]: 5662.171151881076
+8) Radial Force Gear [lbs]: 2060.861760605488
+10) Reaction Force C [lbs]: 2973.6664369367377
+10) Reaction Force A [lbs]: 2688.5047149443385
+10) Reaction Force C [lbs]: 1082.3260696814077
+10) Reaction Force A [lbs]: 978.5356909240804
+14) Output Section Diameters [in]: [0.5204481136653292, 0.5789547911004376, 1.2102725796730098, 0.42036596721285024, 0.20024439943937306, 0.1252455910116488]
 
 SHAFT 2
 
-Tangential Force Input Gear: 3055.7749073643904
-Tangential Force Output Pinion: 13840.862815709299
-Radial Force Input Gear: 2060.861760605488
-Radial Force Output Pinion: 5037.662081480083
-Rkx: 12048.63065635522
-Rax: 4848.00706671847
-Rky: 4567.832331621228
-Ray: 2530.691510464343
-Intermediate Shaft Diameters: [0.13868749077397977, 0.3075948047965429, 0.9900256069639011, 0.33997917166327013, 1.4733669132301461, 0.3568389793739999, 0.350192712709277]
+1) Section Lengths [in]: [0.5, 1, 0.125, 0.125, 1.713, 6.074, 1.713, 0.125, 0.125, 1, 0.5]
+2) Sn [psi]: 310000
+2) Sy [psi]: 287000
+3) Cs : 0.8116523277245
+4) Sn' [psi]: 203805.89949162197
+5) N: 3
+6) Torque [lbs-in]: 16806.761990504147
+7) Tangential Force Input Gear [lbs]: 3055.7749073643904
+7) Tangential Force Output Pinion [lbs]: 13840.862815709299
+8) Radial Force Input Gear [lbs]: 2060.861760605488
+8) Radial Force Output Pinion [lbs]: 5037.662081480083
+9) Tangential Reaction Force K: 12048.63065635522
+9) Tangential Reaction Force A: 4848.00706671847
+10) Radial Reaction Force K: 4567.832331621228
+10) Radial Reaction Force A: 2530.691510464343
+14) Intermediate Shaft Diameters [in]: [0.13868749077397977, 0.3075948047965429, 0.9900256069639011, 0.33997917166327013, 1.4733669132301461, 0.3568389793739999, 0.350192712709277]
