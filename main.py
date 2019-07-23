@@ -492,11 +492,11 @@ lengthJ = 1
 lengthK = 0.5
 totalLength = lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf + lengthF + lengthGFirstHalf + \
     lengthGSecondHalf + lengthH + lengthI + lengthJ + lengthK
-print(totalLength)
+
 shaftSpeed = (inputSpeed / VR) * 2 * math.pi / 60 # rpm
-shaftTorque = power * 34000 / shaftSpeed
-tangentialForceInputGear = shaftTorque / (gearDiameter / 2)
-tangentialForceOutputPinion = shaftTorque / (pinionDiameter / 2)
+torque = power * 34000 / shaftSpeed
+tangentialForceInputGear = torque / (gearDiameter / 2)
+tangentialForceOutputPinion = torque / (pinionDiameter / 2)
 
 radialForceInputGear = tangentialForceGear * math.tan(math.pi / 9)
 radialForceOutputPinion = tangentialForceOutputPinion * math.tan(math.pi / 9)
@@ -618,5 +618,56 @@ plt.title("Radial Moment Diagram - Intermediate Shaft - Kt adjusted")
 plt.ylabel("Moment [lbs-in]")
 plt.xlabel("x [in]")
 plt.plot(x, momentRadial)
+
+sectionAMaxMoment = 0
+for i in range(0, int(discreteSubdivisions * lengthA / totalLength)):
+    if math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2) > sectionAMaxMoment:
+        sectionAMaxMoment = math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2)
+sectionADiameter = get_section_diameter(0, sectionAMaxMoment)
+
+sectionBMaxMoment = 0
+for i in range(int(discreteSubdivisions * lengthA / totalLength),
+               int(discreteSubdivisions * (lengthA + lengthB) / totalLength)):
+    if math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2) > sectionBMaxMoment:
+        sectionBMaxMoment = math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2)
+sectionBDiameter = get_section_diameter(0, sectionBMaxMoment)
+
+sectionCDEMaxMoment = 0
+for i in range(int(discreteSubdivisions * (lengthA + lengthB) / totalLength),
+               int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf) / totalLength)):
+    if math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2) > sectionCDEMaxMoment:
+        sectionCDEMaxMoment = math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2)
+sectionCDEDiameter = get_section_diameter(torque, sectionCDEMaxMoment)
+
+sectionFMaxMoment = 0
+for i in range(int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf)),
+               int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf + lengthF) / totalLength)):
+    if math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2) > sectionFMaxMoment:
+        sectionFMaxMoment = math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2)
+sectionFDiameter = get_section_diameter(torque, sectionFMaxMoment)
+
+sectionGHIMaxMoment = 0
+for i in range(int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf + lengthF) / totalLength),
+               int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf + lengthF + lengthGFirstHalf + lengthGSecondHalf + lengthH + lengthI) / totalLength)):
+    if math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2) > sectionGHIMaxMoment:
+        sectionGHIMaxMoment = math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2)
+sectionGHIDiameter = get_section_diameter(torque, sectionGHIMaxMoment)
+
+sectionJMaxMoment = 0
+for i in range(int(discreteSubdivisions * (totalLength - lengthK - lengthJ) / totalLength),
+               int(discreteSubdivisions * (totalLength - lengthK) / totalLength)):
+    if math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2) > sectionJMaxMoment:
+        sectionJMaxMoment = math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2)
+sectionJDiameter = get_section_diameter(0, sectionJMaxMoment)
+
+sectionKMaxMoment = 0
+for i in range(int(discreteSubdivisions * (totalLength - lengthK) / totalLength),
+               int(discreteSubdivisions * (totalLength) / totalLength)):
+    if math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2) > sectionKMaxMoment:
+        sectionKMaxMoment = math.sqrt(momentTangential[i] ** 2 + momentRadial[i] ** 2)
+sectionKDiameter = get_section_diameter(0, sectionKMaxMoment)
+
+intermediateShaftOutputSection = [sectionADiameter, sectionBDiameter, sectionCDEDiameter, sectionFDiameter, sectionGHIDiameter, sectionJDiameter, sectionKDiameter]
+print("Intermediate Shaft Diameters: " + str(intermediateShaftOutputSection))
 
 plt.show()
