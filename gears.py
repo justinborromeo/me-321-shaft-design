@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 
 ### GEAR SET 1 ###
 
@@ -313,3 +314,168 @@ print("Brinell Hardness: " + str(brinellHardness))
 
 print("Output Speed: " + str(inputSpeed / VR))
 # Use appendix 3 to select a steel -> Use SAE 4150 OQT 700 (HB = 495)
+
+# Shaft 1
+
+print("\n\n\nSHAFT 1\n\n\n")
+
+powerIn = 20 * 63000 # watts
+lengthSec1 = 0.5 # inches
+lengthSec2 = 1
+lengthSec3ToMiddle = 1.107
+lengthSec3MiddleToEnd = 0.857
+lengthSec4 = 1
+lengthSec5 = 0.25
+lengthSec6 = 0.25
+
+lengthAToCenter = lengthSec1 + lengthSec2 + lengthSec3ToMiddle
+lengthCenterToC = lengthSec3MiddleToEnd + lengthSec4 + lengthSec5 + lengthSec6;
+totalLength = lengthAToCenter + lengthCenterToC
+
+def plot_shear_diagram(tangentialForce, lengthAToCenter, lengthCenterToC, figureNumber, plotTitle):
+    rc = tangentialForce * lengthAToCenter / (lengthAToCenter + lengthCenterToC)
+    ra = tangentialForce - rc
+    x = np.linspace(0, lengthAToCenter + lengthCenterToC, discreteSubdivisions)
+    y = np.linspace(0, 0, discreteSubdivisions)
+    for i in range(0, int(discreteSubdivisions * lengthAToCenter / (lengthAToCenter + lengthCenterToC))) :
+        y[i] = ra
+
+    for i in range(int(discreteSubdivisions * lengthAToCenter / (lengthAToCenter + lengthCenterToC)), discreteSubdivisions):
+        y[i] = -1 * rc
+
+    y[499] = 0
+    y[0] = 0
+    plt.figure(figureNumber)
+    plt.title(plotTitle)
+    plt.ylabel("Shear Force [lbs]")
+    plt.xlabel("x [in]")
+    plt.plot(x, y)
+
+    return [x, y]
+
+def plot_moment_diagram(distance, shearForce, figureNumber, plotTitle):
+    moment = np.linspace(0, 0, discreteSubdivisions)
+    for i in range(0, discreteSubdivisions):
+        moment[i] = np.trapz(shearForce[0 : i], distance[0 : i])
+    plt.figure(figureNumber)
+    plt.title(plotTitle)
+    plt.ylabel("Moment [lbs-in]")
+    plt.xlabel("x [in]")
+    plt.plot(distance, moment)
+
+    # Adjust by Kt
+    for i in range(int(discreteSubdivisions * (lengthSec1 + lengthSec2) / (lengthAToCenter + lengthCenterToC)),
+                   int(discreteSubdivisions * (lengthAToCenter + lengthSec3MiddleToEnd) / (lengthAToCenter + lengthCenterToC))):
+        moment[i] = moment[i] * Kt
+    plt.figure(figureNumber + 1)
+    plt.title(plotTitle + " - Kt adjusted")
+    plt.ylabel("Moment [lbs-in]")
+    plt.xlabel("x [in]")
+    plt.plot(distance, moment)
+    return [distance, moment]
+
+def cs_from_d(D): # From Table 5-4
+    if D <= 0.3:
+        return 1
+    elif D <= 2 :
+        return (D/0.3)**-0.11
+    else:
+        return 0.859 - 0.02125 * D
+
+
+def get_section_diameter(torque, moment):
+    return ((32 * N / math.pi) * ((Kt * moment / SnPrime) ** 2 + 0.75 * (torque / Sy)**2) ** 1/2) ** (1/3)
+
+def get_section_diameters(tangentialMoment, radialMoment, torque):
+    section1MaxMoment = 0
+    for i in range(0, int(discreteSubdivisions * lengthSec1 / totalLength)):
+        if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section1MaxMoment:
+            section1MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
+    section1Diameter = get_section_diameter(torqueInB, section1MaxMoment)
+
+    section2MaxMoment = 0
+    for i in range(int(discreteSubdivisions * lengthSec1 / totalLength),
+                   int(discreteSubdivisions * (lengthSec1 + lengthSec2) / totalLength)):
+        if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section2MaxMoment:
+            section2MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
+    section2Diameter = get_section_diameter(torqueInB, section2MaxMoment)
+
+    section3MaxMoment = 0
+
+    for i in range(int(discreteSubdivisions * (lengthSec1 + lengthSec2) / totalLength),
+                   int(discreteSubdivisions * (lengthSec1 + lengthSec2 + lengthSec3MiddleToEnd + lengthSec3ToMiddle) / totalLength)):
+        if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section3MaxMoment:
+            section3MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
+    section3Diameter = get_section_diameter(torqueInB, section3MaxMoment)
+
+    section4MaxMoment = 0
+    for i in range(int(discreteSubdivisions * (lengthSec1 + lengthSec2 + lengthSec3MiddleToEnd + lengthSec3ToMiddle) / totalLength),
+                   int(discreteSubdivisions * (lengthSec1 + lengthSec2 + lengthSec3MiddleToEnd + lengthSec3ToMiddle + lengthSec4) / totalLength)):
+        if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section4MaxMoment:
+            section4MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
+    section4Diameter = get_section_diameter(0, section4MaxMoment)
+
+    section5MaxMoment = 0
+    for i in range(int(discreteSubdivisions * (lengthSec1 + lengthSec2 + lengthSec3MiddleToEnd + lengthSec3ToMiddle + lengthSec4) / totalLength),
+                   int(discreteSubdivisions * (lengthSec1 + lengthSec2 + lengthSec3MiddleToEnd + lengthSec3ToMiddle + lengthSec4 + lengthSec5) / totalLength)):
+        if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section5MaxMoment:
+            section5MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
+    section5Diameter = get_section_diameter(0, section5MaxMoment)
+
+
+    section6MaxMoment = 0
+    for i in range(int(discreteSubdivisions * (lengthSec1 + lengthSec2 + lengthSec3MiddleToEnd + lengthSec3ToMiddle + lengthSec4 + lengthSec5) / totalLength),
+                   int(discreteSubdivisions)):
+        if math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2) > section6MaxMoment:
+            section6MaxMoment = math.sqrt(tangentialMoment[i] ** 2 + radialMoment[i] ** 2)
+    section6Diameter = get_section_diameter(0, section6MaxMoment)
+
+    return [section1Diameter, section2Diameter, section3Diameter, section4Diameter, section5Diameter, section6Diameter]
+
+inputSpeed = 1750
+Kt = 3
+Cr = 0.81 # 99% reliability from Table 5-3
+D = 2
+Sn = 80000 # SAE 1040 Cold-Drawn (Appendix 3) [ksi]
+Sy = 71000 # SAE 1040 Cold-Drawn (Appendix 3) [ksi]
+discreteSubdivisions = 500
+
+Cs = cs_from_d(D)
+SnPrime = Cs * Cr * Sn
+N = 3 # Safety Factor
+
+angularVelocityIn = inputSpeed * 2 * math.pi / 60 # rpm
+torqueInB = powerIn / angularVelocityIn
+print("Torque In: " + str(torqueInB))
+
+tangentialForceGear = torqueInB / (pinionDiameter / 2)
+radialForceGear = tangentialForceGear * math.tan(math.pi / 9)
+
+print("Tangential Force Gear: " + str(tangentialForceGear))
+print("Radial Force Gear: " + str(radialForceGear))
+
+def father_of_get_section_diameters(tangentialForceGear, radialForceGear, startingFigureNumber, torque):
+    [distance, shearForceTangential] = plot_shear_diagram(tangentialForceGear, lengthAToCenter, lengthCenterToC, startingFigureNumber, "Tangential Shear Force")
+    [distance, shearForceRadial] = plot_shear_diagram(radialForceGear, lengthAToCenter, lengthCenterToC, startingFigureNumber + 1, "Radial Shear Force")
+
+    [distance, tangentialMoment] = plot_moment_diagram(distance, shearForceTangential, startingFigureNumber + 2, "Moment Diagram Tangential")
+    [distance, radialMoment] = plot_moment_diagram(distance, shearForceRadial, startingFigureNumber + 4, "Moment Diagram Radial")
+
+    return get_section_diameters(tangentialMoment, radialMoment, torque)
+
+section_diameters = father_of_get_section_diameters(tangentialForceGear, radialForceGear, 1, torqueInB)
+print("Input Section Diameters: " + str(section_diameters))
+
+angularVelocityIn = (inputSpeed / VR) * 2 * math.pi / 60
+torqueInB = powerIn / angularVelocityIn
+print("Torque In: " + str(torqueInB))
+
+tangentialForceGear = torqueInB / (gearDiameter / 2)
+radialForceGear = tangentialForceGear * math.tan(math.pi / 9)
+print("Tangential Force Gear: " + str(tangentialForceGear))
+print("Radial Force Gear: " + str(radialForceGear))
+
+section_diameters = father_of_get_section_diameters(tangentialForceGear, radialForceGear, 7, torqueInB)
+print("Output Section Diameters: " + str(section_diameters))
+
+plt.show()
