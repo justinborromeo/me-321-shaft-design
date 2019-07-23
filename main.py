@@ -509,7 +509,7 @@ print("Radial Force Output Pinion: " + str(radialForceOutputPinion))
 
 rkx = ((tangentialForceInputGear * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf)) + \
       tangentialForceOutputPinion * (0.5 * lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf
-                                     + lengthF + lengthGFirstHalf))\
+                                     + lengthF + lengthGFirstHalf)) \
       / (totalLength - 0.5 * lengthA - 0.5 * lengthB)
 
 rax = tangentialForceOutputPinion + tangentialForceInputGear - rkx
@@ -571,6 +571,52 @@ plt.ylabel("Shear Force [lbs]")
 plt.xlabel("x [in]")
 plt.plot(x, shearForceRadial)
 
+momentTangential = np.linspace(0, 0, discreteSubdivisions)
+for i in range(0, discreteSubdivisions):
+    momentTangential[i] = np.trapz(shearForceTangential[0: i], x[0: i])
+plt.figure(15)
+plt.title("Tangential Moment Diagram - Intermediate Shaft")
+plt.ylabel("Moment [lbs-in]")
+plt.xlabel("x [in]")
+plt.plot(x, momentTangential)
 
+# Adjust by Kt
+for i in range(int(discreteSubdivisions * (lengthA + lengthB) / (totalLength)),
+               int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf) / (totalLength))):
+    momentTangential[i] = momentTangential[i] * Kt
+
+for i in range(int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf + lengthF) / (totalLength)),
+               int(discreteSubdivisions * (totalLength - lengthK - lengthJ) / (totalLength))):
+    momentTangential[i] = momentTangential[i] * Kt
+
+plt.figure(16)
+plt.title("Tangential Moment Diagram - Intermediate Shaft - Kt adjusted")
+plt.ylabel("Moment [lbs-in]")
+plt.xlabel("x [in]")
+plt.plot(x, momentTangential)
+
+momentRadial = np.linspace(0, 0, discreteSubdivisions)
+for i in range(0, discreteSubdivisions):
+    momentRadial[i] = np.trapz(shearForceRadial[0: i], x[0: i])
+plt.figure(17)
+plt.title("Radial Moment Diagram - Intermediate Shaft")
+plt.ylabel("Moment [lbs-in]")
+plt.xlabel("x [in]")
+plt.plot(x, momentRadial)
+
+# Adjust by Kt
+for i in range(int(discreteSubdivisions * (lengthA + lengthB) / (totalLength)),
+               int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf) / (totalLength))):
+    momentRadial[i] = momentRadial[i] * Kt
+
+for i in range(int(discreteSubdivisions * (lengthA + lengthB + lengthC + lengthD + lengthEFirstHalf + lengthESecondHalf + lengthF) / (totalLength)),
+               int(discreteSubdivisions * (totalLength - lengthK - lengthJ) / (totalLength))):
+    momentRadial[i] = momentRadial[i] * Kt
+
+plt.figure(18)
+plt.title("Radial Moment Diagram - Intermediate Shaft - Kt adjusted")
+plt.ylabel("Moment [lbs-in]")
+plt.xlabel("x [in]")
+plt.plot(x, momentRadial)
 
 plt.show()
