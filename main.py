@@ -17,30 +17,30 @@ serviceFactor = 1.00
 # SOLVER
 
 targetVelocityRatio = inputSpeed / outputSpeed
-print("Target Gear Ratio: " + str(targetVelocityRatio))
 
 print("GEAR SET 1 PARAMS \n")
-
+print("1) Target Velocity Ratio: " + str(targetVelocityRatio))
 targetVR = math.sqrt(targetVelocityRatio)  # Velocity Ratio for both sets of gears
-
+print("2) Target Gearset Velocity Ratio:" + str(targetVR))
+print("3) Num Pinion Teeth: " + str(minNumTeeth))
 pinionTeeth = minNumTeeth
 gearTeeth = round(pinionTeeth * targetVR)
-print("Gear Teeth: " + str(gearTeeth))
+print("4) Num Gear Teeth: " + str(gearTeeth))
 
 VR = gearTeeth / pinionTeeth
-print("Velocity Ratio: " + str(VR))
+print("5) Actual Velocity Ratio: " + str(VR))
 
 adjustedPower = Ko * power
+print("6) Design Power: " + str(adjustedPower))
 pitchDiameter = 7.00  # Pd: From 9-11, adjusted power corresponds to a pitch diameter of 7 in
-
+print("7) Pitch Diameter: " + str(pitchDiameter))
 gearDiameter = gearTeeth / pitchDiameter
 pinionDiameter = pinionTeeth / pitchDiameter
 
 adjustmentDiameter = 1 / pitchDiameter
 
-print("Adjustment Diameter: " + str(adjustmentDiameter))
-print("Gear Diameter: " + str(gearDiameter))
-print("Pinion Diameter: " + str(pinionDiameter))
+print("8) Gear Diameter: " + str(gearDiameter))
+print("8) Pinion Diameter: " + str(pinionDiameter))
 
 addendum = adjustmentDiameter
 dedendum = 1.25 / pitchDiameter
@@ -62,23 +62,26 @@ print("Gear Dedendum Diameter: " + str(dedendumDiameter))
 
 geartrainHeight = (3 / 2) * gearDiameter + pinionDiameter / 2 + 3 * adjustmentDiameter  # calculated Y (in)
 
-print("Geartrain Height: " + str(geartrainHeight))
+print("9) Geartrain Height: " + str(geartrainHeight))
 
 C = (pinionDiameter + gearDiameter) / (2 * pitchDiameter)  # center distance
+print("10) Center Distance: " + str(C))
 tangentialVelocity = (math.pi * pitchDiameter * inputSpeed) / 12
 transmittedLoad = 33000 * power / tangentialVelocity  # Wt
 
-print("C: " + str(C))
-print("Tangential velocity: " + str(tangentialVelocity))
-print("wt: " + str(transmittedLoad))
+print("11) Pitch Line Speed: " + str(tangentialVelocity))
+print("12) Transmitted Load: " + str(transmittedLoad))
 
 nominalFaceWidth = 12 / pitchDiameter
 
-print("Nominal Face Width: " + str(nominalFaceWidth))
+print("13) Nominal Face Width: " + str(nominalFaceWidth))
 
 # Material is steel
 elasticCoefficient = 2300  # Cp
+print("14) Elastic Coefficient: " + str(elasticCoefficient))
+
 agmaQualityNumber = 6  # A6 - automotive transmission equiv. from 9-5
+print("15) AGMA Quality Number: " + str(agmaQualityNumber))
 
 dynamicFactorsAt3207VT = {}  # Mapping between AGMA Quality Numbers and Dynamic Factors at Vt of 3207
 dynamicFactorsAt3207VT[6] = 1.13
@@ -90,35 +93,39 @@ dynamicFactorsAt3207VT[11] = 1.75
 
 dynamicFactor = dynamicFactorsAt3207VT[agmaQualityNumber]  # Kv
 
-print("Dynamic Factor: " + str(dynamicFactor))
+print("16) Dynamic Factor: " + str(dynamicFactor))
 
 KMRatio = nominalFaceWidth / pinionDiameter
 
-print("KM Ratio: " + str(KMRatio))
+print("17) F/Dp Ratio: " + str(KMRatio))
 
 # Use this formula because 1 < F < 15 (See Figure 9-12)
 pinionProportionFactor = nominalFaceWidth / (10 * pinionDiameter) - 0.0375 + 0.0125 * nominalFaceWidth  # from fig 9-12
 
-print("Cpf: " + str(pinionProportionFactor))
+print("18) Pinion Proportion Factor: " + str(pinionProportionFactor))
 
 # Assume commercial gears
 meshAlignmentFactor = 0.127 + 0.0158 * nominalFaceWidth - (1.093 * pow(10, -4) * pow(nominalFaceWidth, 2))  # Cma
+print("19) Mesh Alignment Factor: " + str(meshAlignmentFactor))
 
 Km = 1 + meshAlignmentFactor + pinionProportionFactor
 
-print("Mesh Alignment Factor: " + str(meshAlignmentFactor))
+print("20) Km: " + str(Km))
 
 sizeFactor = 1  # Ks since pitch diameter is greater than 5 inches from Table 9-2
+print("21) Ks: " + str(sizeFactor))
 
 rimThicknessFactor = 1.0  # Kb since VR is greater than 1.2, thickness factor is 1.0
+print("22) Rim Thickness Factor: " + str(rimThicknessFactor))
 
 reliabilityFactor = 1.00  # Km From table 9-11, at 99% reliability
+print("23) Reliability Factor: " + str(reliabilityFactor))
 
 numPinionCycles = 60 * lifetime * inputSpeed  # Ncp
 numGearCycles = 60 * lifetime * (inputSpeed / VR)  # Ncg
 
-print("Number Pinion Cycles: " + str(numPinionCycles))
-print("Number Gear Cycles: " + str(numGearCycles))
+print("24) Number Pinion Cycles: " + str(numPinionCycles))
+print("24) Number Gear Cycles: " + str(numGearCycles))
 
 
 def bending_strength_stress_cycle_factor(numCycles):
@@ -137,19 +144,23 @@ bendingStressCycleFactorGear = bending_strength_stress_cycle_factor(numGearCycle
 pittingResistanceStressCycleFactorPinion = pitting_strength_stress_cycle_factor(numPinionCycles)  # Znp from Figure 9-22
 pittingResistanceStressCycleFactorGear = pitting_strength_stress_cycle_factor(numGearCycles)  # Zng from Figure 9-22
 
-print("Ynp: " + str(bendingStressCycleFactorPinion))
-print("Yng: " + str(bendingStressCycleFactorGear))
+print("25) Ynp: " + str(bendingStressCycleFactorPinion))
+print("25) Yng: " + str(bendingStressCycleFactorGear))
 
-print("Znp: " + str(pittingResistanceStressCycleFactorPinion))
-print("Zng: " + str(pittingResistanceStressCycleFactorGear))
+print("26) Znp: " + str(pittingResistanceStressCycleFactorPinion))
+print("26) Zng: " + str(pittingResistanceStressCycleFactorGear))
 
 # From Figure 9-10: Np = 17, Ng = 77
 bendingGeometryFactorPinion = 0.295  # Jp from Fig 9-17
 bendingGeometryFactorGear = 0.41  # Jg from Fig 9-17
+print("27) Bending Geometry Factor Pinion " + str(bendingGeometryFactorPinion))
+print("27) Bending Geometry Factor Gear " + str(bendingGeometryFactorGear))
 
 # From Figure 9-17 VR = 4.54 Np = 17
 
 pittingGeometryFactor = 0.105  # I from Figure 9-17, using 20deg pressure angle
+
+print("28) Pitting Geometry Factor: " + str(pittingGeometryFactor))
 
 allowableBendingStressNumberPinion = (((transmittedLoad * pitchDiameter) / (nominalFaceWidth * bendingGeometryFactorPinion)) * Ko \
                                       * Km * sizeFactor * rimThicknessFactor * dynamicFactor) * (
@@ -172,49 +183,53 @@ allowableContactStressNumberGear = ((elasticCoefficient * reliabilityFactor * se
                                                                                                       gearDiameter *
                                                                                                       pittingGeometryFactor)) ** 0.5  # Sacg
 
-print("Bending Stress Number Pinion: " + str(allowableBendingStressNumberPinion))
-print("Bending Stress Number Gear: " + str(allowableBendingStressNumberGear))
-print("Contact Stress Number Pinion: " + str(allowableContactStressNumberPinion))
-print("Contact Stress Number Gear: " + str(allowableContactStressNumberGear))
+print("29) Bending Stress Number Pinion: " + str(allowableBendingStressNumberPinion))
+print("29) Bending Stress Number Gear: " + str(allowableBendingStressNumberGear))
+print("30) Contact Stress Number Pinion: " + str(allowableContactStressNumberPinion))
+print("30) Contact Stress Number Gear: " + str(allowableContactStressNumberGear))
 
 limitingStress = max([allowableBendingStressNumberPinion, allowableBendingStressNumberGear, allowableContactStressNumberGear, allowableContactStressNumberPinion])
 
-print("Limiting Factor: " + str(limitingStress))
+print("31) Limiting Stress: " + str(limitingStress))
 
 def calc_brinell_hardness(limitingStress):
     return (limitingStress / 1000 - 29.10) / 0.322
 
 brinellHardness = calc_brinell_hardness(limitingStress) # HB from Fig 9-19 using Grade 1 Steel
-print("Brinell Hardness: " + str(brinellHardness))
+print("32) Brinell Hardness: " + str(brinellHardness))
 
 # Use appendix 3 to select a steel -> Use 1144 Cold-Drawn (HB = 200)
-
+print("33) Choose 1144 Cold-Drawn Steel with HB = 200")
 
 ### GEAR SET 2 ###
 
 print("\nGEAR SET 2 PARAMS \n")
 
+print("1) Target Velocity Ratio: " + str(targetVR))
 targetVR = math.sqrt(targetVelocityRatio)  # Velocity Ratio for both sets of gears
-
+print("2) Target Gearset Velocity Ratio:" + str(targetVR))
 pinionTeeth = minNumTeeth
+print("3) Num Pinion Teeth: " + str(minNumTeeth))
 gearTeeth = round(pinionTeeth * targetVR)
-print("Gear Teeth: " + str(gearTeeth))
+print("4) Num Gear Teeth: " + str(gearTeeth))
 
 VR = gearTeeth / pinionTeeth
-print("Velocity Ratio: " + str(VR))
+print("5) Actual Velocity Ratio: " + str(VR))
 
 inputSpeed = inputSpeed / VR
 
 adjustedPower = Ko * power
+print("6) Design Power: " + str(adjustedPower))
 pitchDiameter = 7.00  # Pd: From 9-11, adjusted power corresponds to a pitch diameter of 7 in
+print("7) Pitch Diameter: " + str(pitchDiameter))
 
 gearDiameter = gearTeeth / pitchDiameter
 pinionDiameter = pinionTeeth / pitchDiameter
 
 adjustmentDiameter = 1 / pitchDiameter
 
-print("Gear Diameter: " + str(gearDiameter))
-print("Pinion Diameter: " + str(pinionDiameter))
+print("8) Gear Diameter: " + str(gearDiameter))
+print("8) Pinion Diameter: " + str(pinionDiameter))
 
 addendumDiameter = 2 * addendum + pinionDiameter
 dedendumDiameter = pinionDiameter - 2 * dedendum
@@ -230,58 +245,68 @@ print("Gear Dedendum Diameter: " + str(dedendumDiameter))
 
 geartrainHeight = (3 / 2) * gearDiameter + pinionDiameter / 2 + 3 * adjustmentDiameter  # calculated Y (in)
 
-print("Geartrain Height: " + str(geartrainHeight))
+print("9) Geartrain Height: " + str(geartrainHeight))
 
 C = (pinionDiameter + gearDiameter) / (2 * pitchDiameter)  # center distance
+print("10) Center Distance: " + str(C))
 tangentialVelocity = (math.pi * pitchDiameter * inputSpeed) / 12
 transmittedLoad = 33000 * power / tangentialVelocity  # Wt
 
-print("C: " + str(C))
-print("Tangential velocity: " + str(tangentialVelocity))
-print("wt: " + str(transmittedLoad))
+print("11) Pitch Line Speed: " + str(tangentialVelocity))
+print("12) Transmitted Load: " + str(transmittedLoad))
 
 nominalFaceWidth = 12 / pitchDiameter
 
-print("Nominal Face Width: " + str(nominalFaceWidth))
+print("13) Nominal Face Width: " + str(nominalFaceWidth))
 
 # Material is steel
 elasticCoefficient = 2300  # Cp
+print("14) Elastic Coefficient: " + str(elasticCoefficient))
 agmaQualityNumber = 6  # A6 - automotive transmission equiv. from 9-5
+print("15) AGMA Quality Number: " + str(agmaQualityNumber))
 
 # Mapping between AGMA Quality Numbers and Dynamic Factors at Vt of 708
 dynamicFactorsAt3207VT = {6: 1.07, 7: 1.12, 8: 1.18, 9: 1.24, 10: 1.31, 11: 1.39}
 
 dynamicFactor = dynamicFactorsAt3207VT[agmaQualityNumber]  # Kv
 
-print("Dynamic Factor: " + str(dynamicFactor))
+print("16) Dynamic Factor: " + str(dynamicFactor))
 
 KMRatio = nominalFaceWidth / pinionDiameter
 
-print("KM Ratio: " + str(KMRatio))
+print("17) F/Dp Ratio: " + str(KMRatio))
 
 # Use this formula because 1 < F < 15 (See Figure 9-12)
 pinionProportionFactor = nominalFaceWidth / (10 * pinionDiameter) - 0.0375 + 0.0125 * nominalFaceWidth  # from fig 9-12
 
-print("Cpf: " + str(pinionProportionFactor))
+print("18) Pinion Proportion Factor: " + str(pinionProportionFactor))
 
 # Assume commercial gears
 meshAlignmentFactor = 0.127 + 0.0158 * nominalFaceWidth - (1.093 * pow(10, -4) * pow(nominalFaceWidth, 2))  # Cma
 
+print("19) Mesh Alignment Factor: " + str(meshAlignmentFactor))
+
 Km = 1 + meshAlignmentFactor + pinionProportionFactor
 
-print("Mesh Alignment Factor: " + str(meshAlignmentFactor))
+print("20) Km: " + str(Km))
 
 sizeFactor = 1  # Ks since pitch diameter is greater than 5 inches from Table 9-2
 
+print("21) Ks: " + str(sizeFactor))
+
 rimThicknessFactor = 1.0  # Kb since VR is greater than 1.2, thickness factor is 1.0
 
+print("22) Rim Thickness Factor: " + str(rimThicknessFactor))
+
 reliabilityFactor = 1.00  # Km From table 9-11, at 99% reliability
+
+print("23) Reliability Factor: " + str(reliabilityFactor))
 
 numPinionCycles = 60 * lifetime * inputSpeed  # Ncp
 numGearCycles = 60 * lifetime * (inputSpeed / VR)  # Ncg
 
-print("Number Pinion Cycles: " + str(numPinionCycles))
-print("Number Gear Cycles: " + str(numGearCycles))
+print("24) Number Pinion Cycles: " + str(numPinionCycles))
+print("24) Number Gear Cycles: " + str(numGearCycles))
 
 bendingStressCycleFactorPinion = bending_strength_stress_cycle_factor(numPinionCycles)  # Ynp from Figure 9-21
 bendingStressCycleFactorGear = bending_strength_stress_cycle_factor(numGearCycles)  # Yng from Figure 9-21
@@ -289,20 +314,22 @@ bendingStressCycleFactorGear = bending_strength_stress_cycle_factor(numGearCycle
 pittingResistanceStressCycleFactorPinion = pitting_strength_stress_cycle_factor(numPinionCycles)  # Znp from Figure 9-22
 pittingResistanceStressCycleFactorGear = pitting_strength_stress_cycle_factor(numGearCycles)  # Zng from Figure 9-22
 
-print("Ynp: " + str(bendingStressCycleFactorPinion))
-print("Yng: " + str(bendingStressCycleFactorGear))
+print("25) Ynp: " + str(bendingStressCycleFactorPinion))
+print("25) Yng: " + str(bendingStressCycleFactorGear))
 
-print("Znp: " + str(pittingResistanceStressCycleFactorPinion))
-print("Zng: " + str(pittingResistanceStressCycleFactorGear))
+print("26) Znp: " + str(pittingResistanceStressCycleFactorPinion))
+print("26) Zng: " + str(pittingResistanceStressCycleFactorGear))
 
 # From Figure 9-10: Np = 17, Ng = 77
 bendingGeometryFactorPinion = 0.295  # Jp from Fig 9-17
 bendingGeometryFactorGear = 0.41  # Jg from Fig 9-17
+print("27) Bending Geometry Factor Pinion " + str(bendingGeometryFactorPinion))
+print("27) Bending Geometry Factor Gear " + str(bendingGeometryFactorGear))
 
 # From Figure 9-17 VR = 4.54 Np = 17
 
 pittingGeometryFactor = 0.105  # I from Figure 9-17, using 20deg pressure angle
-
+print("28) Pitting Geometry Factor: " + str(pittingGeometryFactor))
 allowableBendingStressNumberPinion = (((transmittedLoad * pitchDiameter) / (nominalFaceWidth * bendingGeometryFactorPinion)) * Ko \
                                       * Km * sizeFactor * rimThicknessFactor * dynamicFactor) * (
                                                  serviceFactor * reliabilityFactor / (
@@ -324,20 +351,23 @@ allowableContactStressNumberGear = ((elasticCoefficient * reliabilityFactor * se
                                                                                                       gearDiameter *
                                                                                                       pittingGeometryFactor)) ** 0.5  # Sacg
 
-print("Bending Stress Number Pinion: " + str(allowableBendingStressNumberPinion))
-print("Bending Stress Number Gear: " + str(allowableBendingStressNumberGear))
-print("Contact Stress Number Pinion: " + str(allowableContactStressNumberPinion))
-print("Contact Stress Number Gear: " + str(allowableContactStressNumberGear))
+print("29) Bending Stress Number Pinion: " + str(allowableBendingStressNumberPinion))
+print("29) Bending Stress Number Gear: " + str(allowableBendingStressNumberGear))
+print("30) Contact Stress Number Pinion: " + str(allowableContactStressNumberPinion))
+print("30) Contact Stress Number Gear: " + str(allowableContactStressNumberGear))
 
 limitingStress = max([allowableBendingStressNumberPinion, allowableBendingStressNumberGear, allowableContactStressNumberGear, allowableContactStressNumberPinion])
 
-print("Limiting Factor: " + str(limitingStress))
+print("31) Limiting Stress: " + str(limitingStress))
 
 brinellHardness = calc_brinell_hardness(limitingStress) # HB from Fig 9-19 using Grade 1 Steel
-print("Brinell Hardness: " + str(brinellHardness))
+print("32) Brinell Hardness: " + str(brinellHardness))
 
-print("Output Speed: " + str(inputSpeed / VR))
 # Use appendix 3 to select a steel -> Use SAE 4150 OQT 700 (HB = 495)
+print("33) Choose SAE 4150 OQT 700 with HB = 495")
+
+print("Final Output Speed: " + str(inputSpeed / VR))
+
 
 # Shaft 1
 
