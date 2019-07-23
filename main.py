@@ -431,8 +431,8 @@ inputSpeed = 1750
 Kt = 3
 Cr = 0.81 # 99% reliability from Table 5-3
 D = 2
-Sn = 80000 # SAE 1040 Cold-Drawn (Appendix 3) [ksi]
-Sy = 71000 # SAE 1040 Cold-Drawn (Appendix 3) [ksi]
+Sn = 310000 # SAE 9255 Q&T400 (Appendix 3) [ksi]
+Sy = 287000 # SAE 9255 Q&T400 (Appendix 3) [ksi]
 discreteSubdivisions = 500
 
 Cs = cs_from_d(D)
