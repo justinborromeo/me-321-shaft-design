@@ -7,6 +7,12 @@ Velocity Ratio: 4.529411764705882
 Adjustment Diameter: 0.14285714285714285
 Gear Diameter: 11.0
 Pinion Diameter: 2.4285714285714284
+Addendum: 0.14285714285714285
+Dedendum: 0.17857142857142858
+Pinion Addendum Diameter: 2.714285714285714
+Pinion Dedendum Diameter: 2.071428571428571
+Gear Addendum Diameter: 11.285714285714286
+Gear Dedendum Diameter: 10.642857142857142
 Geartrain Height: 18.142857142857142
 C: 0.9591836734693878
 Tangential velocity: 3207.0425005395805
@@ -35,6 +41,10 @@ Gear Teeth: 77
 Velocity Ratio: 4.529411764705882
 Gear Diameter: 11.0
 Pinion Diameter: 2.4285714285714284
+Pinion Addendum Diameter: 2.714285714285714
+Pinion Dedendum Diameter: 2.071428571428571
+Gear Addendum Diameter: 11.285714285714286
+Gear Dedendum Diameter: 10.642857142857142
 Geartrain Height: 18.142857142857142
 C: 0.9591836734693878
 Tangential velocity: 708.0483442749724

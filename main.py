@@ -38,10 +38,27 @@ pinionDiameter = pinionTeeth / pitchDiameter
 
 adjustmentDiameter = 1 / pitchDiameter
 
-
 print("Adjustment Diameter: " + str(adjustmentDiameter))
 print("Gear Diameter: " + str(gearDiameter))
 print("Pinion Diameter: " + str(pinionDiameter))
+
+addendum = adjustmentDiameter
+dedendum = 1.25 / pitchDiameter
+
+print("Addendum: " + str(addendum))
+print("Dedendum: " + str(dedendum))
+
+addendumDiameter = 2 * addendum + pinionDiameter
+dedendumDiameter = pinionDiameter - 2 * dedendum
+
+print("Pinion Addendum Diameter: " + str(addendumDiameter))
+print("Pinion Dedendum Diameter: " + str(dedendumDiameter))
+
+addendumDiameter = 2 * addendum + gearDiameter
+dedendumDiameter = gearDiameter - 2 * dedendum
+
+print("Gear Addendum Diameter: " + str(addendumDiameter))
+print("Gear Dedendum Diameter: " + str(dedendumDiameter))
 
 geartrainHeight = (3 / 2) * gearDiameter + pinionDiameter / 2 + 3 * adjustmentDiameter  # calculated Y (in)
 
@@ -198,6 +215,18 @@ adjustmentDiameter = 1 / pitchDiameter
 
 print("Gear Diameter: " + str(gearDiameter))
 print("Pinion Diameter: " + str(pinionDiameter))
+
+addendumDiameter = 2 * addendum + pinionDiameter
+dedendumDiameter = pinionDiameter - 2 * dedendum
+
+print("Pinion Addendum Diameter: " + str(addendumDiameter))
+print("Pinion Dedendum Diameter: " + str(dedendumDiameter))
+
+addendumDiameter = 2 * addendum + gearDiameter
+dedendumDiameter = gearDiameter - 2 * dedendum
+
+print("Gear Addendum Diameter: " + str(addendumDiameter))
+print("Gear Dedendum Diameter: " + str(dedendumDiameter))
 
 geartrainHeight = (3 / 2) * gearDiameter + pinionDiameter / 2 + 3 * adjustmentDiameter  # calculated Y (in)
 
