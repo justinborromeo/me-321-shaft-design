@@ -69,7 +69,7 @@ print("10) Center Distance [in]: " + str(C))
 tangentialVelocity = (math.pi * pitchDiameter * inputSpeed) / 12
 transmittedLoad = 33000 * power / tangentialVelocity  # Wt
 
-print("11) Pitch Line Speed [in/s]: " + str(tangentialVelocity))
+print("11) Pitch Line Speed [ft/min]: " + str(tangentialVelocity))
 print("12) Transmitted Load: " + str(transmittedLoad))
 
 nominalFaceWidth = 12 / pitchDiameter
